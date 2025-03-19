@@ -6,23 +6,33 @@ from api.models import Product, Order, OrderItem
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-@api_view(['GET'])
-def product_list(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+from rest_framework import generics
 
-@api_view(['GET'])
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
 
-@api_view(['GET'])
-def order_list(request):
-    orders = Order.objects.all()
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
+class ProductListAPIView(generics.ListAPIView):
+    # queryset = Product.objects.filter(stock__gt=0) // check stock greater than 0
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductDetailAPIView(generics.RetrieveAPIView): # default is pk
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_url_kwarg = 'product_id'
+
+class OrderListAPIView(generics.ListAPIView):
+    # queryset = Product.objects.filter(stock__gt=0) // check stock greater than 0
+    queryset =Order.objects.prefetch_related('items__product').all()
+    serializer_class =  OrderSerializer
+
+class UserOrderListAPIView(generics.ListAPIView):
+    # queryset = Product.objects.filter(stock__gt=0) // check stock greater than 0
+    queryset =Order.objects.prefetch_related('items__product').all()
+    serializer_class =  OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = super().get_queryset()
+        return qs.filter(user=user)
 
 @api_view(['GET'])
 def product_info(request):
