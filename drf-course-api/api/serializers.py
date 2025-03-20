@@ -6,7 +6,6 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = (
-            'id',
             'name',
             'description',
             'price',
@@ -19,7 +18,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 "Price must greater than 0."
             )
         return value
-    
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name')
