@@ -24,10 +24,16 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
             self.permission_classes = [IsAdminUser]
         return super().get_permissions()
 
-class ProductDetailAPIView(generics.RetrieveAPIView): # default is pk
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView): # default is pk
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_url_kwarg = 'product_id'
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 class OrderListAPIView(generics.ListAPIView):
     # queryset = Product.objects.filter(stock__gt=0) // check stock greater than 0
