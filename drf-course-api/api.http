@@ -4,10 +4,35 @@ GET http://localhost:8000/products/ HTTP/1.1
 
 POST http://localhost:8000/products/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyNjA5NDc2LCJpYXQiOjE3NDI2MDkxNzYsImp0aSI6IjlkOGQ5ODJhYTM3MzRkMTliMGZjYzY1NDlkMTU0MGIwIiwidXNlcl9pZCI6Mn0.tXOrX8wOCBci53xa0YEtZzt3XEy6rvRupLe6wOAugs8
 
 {
     "name": "Television",
     "price": 300.0,
     "stock": 20,
     "description": "High performance television"
+}
+
+###
+
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin1",
+    "password": "admin1234a1"
+}
+
+###
+
+GET http://localhost:8000/user-orders/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyNjA5NjIwLCJpYXQiOjE3NDI2MDkzMjAsImp0aSI6IjI0OWZhZTNhNjZhOTQ1ZGM4OTcwODAwM2NkYzc2OTE0IiwidXNlcl9pZCI6Mn0.FyWWnrFj0CJjOzYO7rYSTKx5v8d8QLRXEf6X_pOnspU
+
+###
+
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjY5NjA2NSwiaWF0IjoxNzQyNjA5NjY1LCJqdGkiOiI1YThmZWU4NjMyMGY0YTQzOWEzMjVlOTdlMmE1Njg2NCIsInVzZXJfaWQiOjJ9.cPvrEJbdm9TLMvidrWeEGbbJ4V3vuOyqf-ob-yZwezk"
 }
